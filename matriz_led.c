@@ -135,12 +135,32 @@ void desenho_pio(PIO pio, uint sm, double b, double r, double g) {
     }
 }
 
-// Função genérica para executar animações com cores diferentes
+// Função para executar animações
 void executar_animacao(PIO pio, uint sm, Animacao *anim, int buzzer_freq, int buzzer_duration) {
     for (int frame = 0; frame < anim->num_frames; frame++) {
         for (int i = 0; i < NUM_PIXELS; i++) {
             double intensidade = anim->frames[frame][i];
             uint32_t valor_led = matrix_rgb(anim->b * intensidade, anim->r * intensidade, anim->g * intensidade);
+            pio_sm_put_blocking(pio, sm, valor_led);
+        }
+        if (buzzer_freq > 0 && buzzer_duration > 0) {
+            buzzer_tone(buzzer_freq, buzzer_duration);
+        }
+        sleep_ms(anim->sleep_time);
+    }
+}
+
+// Função para executar animações com cores diferentes
+void executar_animacao_multicolor(PIO pio, uint sm, Animacao *anim, int buzzer_freq, int buzzer_duration, double r2, double g2, double b2) {
+    for (int frame = 0; frame < anim->num_frames; frame++) {
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            double intensidade = anim->frames[frame][i];
+            uint32_t valor_led;
+            if (i % 2 == 0) {
+                valor_led = matrix_rgb(anim->b * intensidade, anim->r * intensidade, anim->g * intensidade);
+            } else {
+                valor_led = matrix_rgb(b2 * intensidade, r2 * intensidade, g2 * intensidade);
+            }
             pio_sm_put_blocking(pio, sm, valor_led);
         }
         if (buzzer_freq > 0 && buzzer_duration > 0) {
@@ -197,24 +217,20 @@ Animacao animacao_2 = {
 };
 
 // Sincroniza LEDs e buzzer
-void animacao_leds_3(PIO pio, uint sm) {
-    double frames[5][NUM_PIXELS] = {
-        {0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0},
-        {1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2},
+Animacao animacao_3 = {
+    .frames = {
+        {0.8, 0.6, 0.4, 0.2, 0.0, 1.0, 0.8, 0.6, 0.4, 0.2, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0},
+        {0.2, 0.4, 0.6, 0.8, 1.0, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.0, 0.2, 0.4, 0.6},
+        {1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2},
         {0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4},
-        {0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8},
-        {0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 1.0, 0.2}
-    };
-
-    for (int frame = 0; frame < 5; frame++) {
-        for (int i = 0; i < NUM_PIXELS; i++) {
-            uint32_t valor_led = matrix_rgb(0.5, 0.0, frames[frame][i]); // LEDs azuis sincronizados
-            pio_sm_put_blocking(pio, sm, valor_led);
-        }
-        buzzer_tone(440, 100); // Sincroniza o som do buzzer
-        sleep_ms(200); // Tempo entre os frames
-    }
-}
+        {0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8}
+    },
+    .num_frames = 5,
+    .r = 0.5,
+    .g = 0.0,
+    .b = 0.0,
+    .sleep_time = 500
+};
 
 int main() {
     PIO pio = pio0;
@@ -239,7 +255,7 @@ int main() {
                     executar_animacao(pio, sm, &animacao_2, 0, 0);
                     break;
                 case '3':
-                    animacao_leds_3(pio, sm);
+                    executar_animacao_multicolor(pio, sm, &animacao_3, 440, 100, 0.0, 0.0, 1.0);
                     break;
                 case 'A':
                     desenho_pio(pio, sm, 0.0, 0.0, 0.0);
