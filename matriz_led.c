@@ -27,13 +27,12 @@
 // Pino do buzzer
 #define BUZZER_PIN 21
 
-
 // Estrutura para armazenar dados de uma animação
 typedef struct {
     double frames[5][NUM_PIXELS];
     int num_frames;
     double r, g, b;
-    int sleep_time;
+    int sleep_time; // Tempo entre frames
 } Animacao;
 
 // Função para configurar os GPIOs do teclado e LEDs
@@ -135,7 +134,6 @@ void desenho_pio(PIO pio, uint sm, double b, double r, double g) {
     }
 }
 
-// Função para executar animações
 void executar_animacao(PIO pio, uint sm, Animacao *anim, int buzzer_freq, int buzzer_duration) {
     for (int frame = 0; frame < anim->num_frames; frame++) {
         for (int i = 0; i < NUM_PIXELS; i++) {
@@ -150,7 +148,6 @@ void executar_animacao(PIO pio, uint sm, Animacao *anim, int buzzer_freq, int bu
     }
 }
 
-// Função para executar animações com cores diferentes
 void executar_animacao_multicolor(PIO pio, uint sm, Animacao *anim, int buzzer_freq, int buzzer_duration, double r2, double g2, double b2) {
     for (int frame = 0; frame < anim->num_frames; frame++) {
         for (int i = 0; i < NUM_PIXELS; i++) {
@@ -216,7 +213,6 @@ Animacao animacao_2 = {
     .sleep_time = 400
 };
 
-// Sincroniza LEDs e buzzer
 Animacao animacao_3 = {
     .frames = {
         {0.8, 0.6, 0.4, 0.2, 0.0, 1.0, 0.8, 0.6, 0.4, 0.2, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0},
@@ -231,6 +227,38 @@ Animacao animacao_3 = {
     .b = 0.0,
     .sleep_time = 500
 };
+
+void animacao_lorenzo(PIO pio, uint sm) {
+    const double frames[7][NUM_PIXELS] = {
+        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0}, // L
+        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0}, // O
+        {1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0}, // R
+        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0}, // E
+        {1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0}, // N
+        {1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0}, // Z
+        {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0}  // O
+    };
+
+    const double colors[7][3] = {
+        {1.0, 0.0, 0.0}, // L - Vermelho
+        {0.0, 1.0, 0.0}, // O - Verde
+        {0.0, 0.0, 1.0}, // R - Azul
+        {1.0, 1.0, 0.0}, // E - Amarelo
+        {1.0, 0.0, 1.0}, // N - Magenta
+        {0.0, 1.0, 1.0}, // Z - Ciano
+        {1.0, 0.5, 0.0}  // O - Laranja
+    };
+
+    for (int frame = 0; frame < 7; frame++) {
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            double intensidade = frames[frame][i];
+            uint32_t valor_led = matrix_rgb(colors[frame][2] * intensidade, colors[frame][0] * intensidade, colors[frame][1] * intensidade);
+            pio_sm_put_blocking(pio, sm, valor_led);
+        }
+        buzzer_tone(440 + (frame * 50), 200); // Incrementa a frequência do buzzer
+        sleep_ms(500); // Tempo entre frames
+    }
+}
 
 int main() {
     PIO pio = pio0;
@@ -256,6 +284,9 @@ int main() {
                     break;
                 case '3':
                     executar_animacao_multicolor(pio, sm, &animacao_3, 440, 100, 0.0, 0.0, 1.0);
+                    break;
+                case '4':
+                    animacao_lorenzo(pio, sm);
                     break;
                 case 'A':
                     desenho_pio(pio, sm, 0.0, 0.0, 0.0);
