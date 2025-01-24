@@ -78,6 +78,23 @@ uint32_t matrix_rgb(double b, double r, double g) {
     return (G << 24) | (R << 16) | (B << 8);
 }
 
+// Inicializa o PIO para a matriz de LEDs
+void init_matriz_led(PIO pio, uint *offset, uint *sm) {
+    *offset = pio_add_program(pio, &matriz_led_program);
+    if (*offset < 0) {
+        printf("Erro ao carregar programa PIO.\n");
+        return;
+    }
+
+    *sm = pio_claim_unused_sm(pio, true);
+    if (*sm < 0) {
+        printf("Erro ao requisitar state machine.\n");
+        return;
+    }
+
+    matriz_led_program_init(pio, *sm, *offset, OUT_PIN);
+}
+
 // Desenha um padrão na matriz de LEDs
 void desenho_pio(PIO pio, uint sm, double b, double r, double g) {
     for (int i = 0; i < NUM_PIXELS; i++) {
@@ -93,7 +110,7 @@ int main() {
     // Configurações iniciais
     stdio_init_all();
     setup_gpio();
-
+    init_matriz_led(pio, &offset, &sm);
 
     while (true) {
         char key = detect_key();
@@ -102,6 +119,17 @@ int main() {
                 case 'A':
                     desenho_pio(pio, sm, 0.0, 0.0, 0.0);
                     break;
+                case 'B':
+                    desenho_pio(pio, sm, 1.0, 0.0, 0.0);
+                    break;
+                case 'C':
+                    desenho_pio(pio, sm, 0.0, 0.8, 0.0);
+                    break;
+                case 'D':
+                    desenho_pio(pio, sm, 0.0, 0.0, 0.5);
+                    break;
+                case '#':
+                    desenho_pio(pio, sm, 0.2, 0.2, 0.2);
                 case '*':
                     printf("HABILITANDO O MODO GRAVAÇÃO\n");
                     reset_usb_boot(0, 0);
