@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/clocks.h"
+#include "pico/bootrom.h"
 
 // Arquivo .pio
 #include "matriz_led.pio.h"
@@ -69,7 +70,26 @@ void setup_gpio() {
     }
 }
 
+// Função para criar cor RGB
+uint32_t matrix_rgb(double b, double r, double g) {
+    unsigned char R = r * 255;
+    unsigned char G = g * 255;
+    unsigned char B = b * 255;
+    return (G << 24) | (R << 16) | (B << 8);
+}
+
+// Desenha um padrão na matriz de LEDs
+void desenho_pio(PIO pio, uint sm, double b, double r, double g) {
+    for (int i = 0; i < NUM_PIXELS; i++) {
+        uint32_t valor_led = matrix_rgb(b, r, g);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
+
 int main() {
+    PIO pio = pio0;
+    uint offset, sm;
+
     // Configurações iniciais
     stdio_init_all();
     setup_gpio();
@@ -80,7 +100,11 @@ int main() {
         if (key != '\0') {
             switch (key) {
                 case 'A':
-                    
+                    desenho_pio(pio, sm, 0.0, 0.0, 0.0);
+                    break;
+                case '*':
+                    printf("HABILITANDO O MODO GRAVAÇÃO\n");
+                    reset_usb_boot(0, 0);
                     break;
                 default:
                     break;
