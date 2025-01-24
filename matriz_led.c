@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "hardware/clocks.h"
+
+// Arquivo .pio
+#include "matriz_led.pio.h"
 
 // Número de LEDs
 #define NUM_PIXELS 25

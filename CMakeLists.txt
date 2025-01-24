@@ -42,15 +42,21 @@ pico_set_program_version(matriz_led "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(matriz_led 0)
-pico_enable_stdio_usb(matriz_led 0)
+pico_enable_stdio_usb(matriz_led 1)
+
+pico_generate_pio_header(matriz_led ${CMAKE_CURRENT_LIST_DIR}/matriz_led.pio)
+
+target_sources(matriz_led PRIVATE matriz_led.c)
 
 # Add the standard library to the build
-target_link_libraries(matriz_led
-        pico_stdlib)
+target_link_libraries(matriz_led PRIVATE
+        pico_stdlib
+        hardware_pio
+        pico_bootrom)
 
 # Add the standard include files to the build
 target_include_directories(matriz_led PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}
 )
 
 # Add any user requested libraries
@@ -59,4 +65,3 @@ target_link_libraries(matriz_led
         )
 
 pico_add_extra_outputs(matriz_led)
-
