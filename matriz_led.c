@@ -27,6 +27,15 @@
 // Pino do buzzer
 #define BUZZER_PIN 21
 
+
+// Estrutura para armazenar dados de uma animação
+typedef struct {
+    double frames[5][NUM_PIXELS];
+    int num_frames;
+    double r, g, b;
+    int sleep_time;
+} Animacao;
+
 // Função para configurar os GPIOs do teclado e LEDs
 void setup_gpio() {
     int rows[] = {ROW1, ROW2, ROW3, ROW4};
@@ -127,52 +136,65 @@ void desenho_pio(PIO pio, uint sm, double b, double r, double g) {
 }
 
 // Função genérica para executar animações com cores diferentes
-void executar_animacao(PIO pio, uint sm, double frames[][NUM_PIXELS], int num_frames, double r, double g, double b, int sleep_time) {
-    for (int frame = 0; frame < num_frames; frame++) {
+void executar_animacao(PIO pio, uint sm, Animacao *anim, int buzzer_freq, int buzzer_duration) {
+    for (int frame = 0; frame < anim->num_frames; frame++) {
         for (int i = 0; i < NUM_PIXELS; i++) {
-            double intensidade = frames[frame][i];
-            uint32_t valor_led = matrix_rgb(b * intensidade, r * intensidade, g * intensidade);
+            double intensidade = anim->frames[frame][i];
+            uint32_t valor_led = matrix_rgb(anim->b * intensidade, anim->r * intensidade, anim->g * intensidade);
             pio_sm_put_blocking(pio, sm, valor_led);
         }
-        sleep_ms(sleep_time);
+        if (buzzer_freq > 0 && buzzer_duration > 0) {
+            buzzer_tone(buzzer_freq, buzzer_duration);
+        }
+        sleep_ms(anim->sleep_time);
     }
 }
 
-// Função de animação para o case '0'
-void animacao_leds_0(PIO pio, uint sm) {
-    double frames[5][NUM_PIXELS] = {
+// Configuração de animações
+Animacao animacao_0 = {
+    .frames = {
         {0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6, 0.8},
         {0.8, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6},
         {0.6, 0.8, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4},
         {0.4, 0.6, 0.8, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.0, 0.2},
         {0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0}
-    };
-    executar_animacao(pio, sm, frames, 5, 1.0, 0.0, 1.0, 400);
-}
+    },
+    .num_frames = 5,
+    .r = 1.0,
+    .g = 0.0,
+    .b = 1.0,
+    .sleep_time = 200
+};
 
-// Função de animação para o case '1'
-void animacao_leds_1(PIO pio, uint sm) {
-    double frames[5][NUM_PIXELS] = {
+Animacao animacao_1 = {
+    .frames = {
         {0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0},
         {0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2},
         {0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4},
         {0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6},
         {0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8}
-    };
-    executar_animacao(pio, sm, frames, 5, 1.0, 1.0, 0.0, 200);
-}
+    },
+    .num_frames = 5,
+    .r = 1.0,
+    .g = 1.0,
+    .b = 0.0,
+    .sleep_time = 300
+};
 
-// Função de animação para o case '2'
-void animacao_leds_2(PIO pio, uint sm) {
-    double frames[5][NUM_PIXELS] = {
+Animacao animacao_2 = {
+    .frames = {
         {0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0},
         {1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2},
         {0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0},
         {1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2, 1.0, 0.8, 0.6, 0.4, 0.2},
         {0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0, 0.2, 0.4, 0.6, 0.8, 1.0}
-    };
-    executar_animacao(pio, sm, frames, 5, 0.0, 0.1, 1.0, 300);
-}
+    },
+    .num_frames = 5,
+    .r = 0.0,
+    .g = 1.0,
+    .b = 1.0,
+    .sleep_time = 400
+};
 
 // Sincroniza LEDs e buzzer
 void animacao_leds_3(PIO pio, uint sm) {
@@ -208,13 +230,13 @@ int main() {
         if (key != '\0') {
             switch (key) {
                 case '0':
-                    animacao_leds_0(pio, sm);
+                    executar_animacao(pio, sm, &animacao_0, 0, 0);
                     break;
                 case '1':
-                    animacao_leds_1(pio, sm);
+                    executar_animacao(pio, sm, &animacao_1, 0, 0);
                     break;
                 case '2':
-                    animacao_leds_2(pio, sm);
+                    executar_animacao(pio, sm, &animacao_2, 0, 0);
                     break;
                 case '3':
                     animacao_leds_3(pio, sm);
