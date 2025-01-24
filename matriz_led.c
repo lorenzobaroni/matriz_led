@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "hardware/pio.h"
 #include "hardware/clocks.h"
 #include "pico/bootrom.h"
 
@@ -127,6 +128,18 @@ void animacao_leds_0(PIO pio, uint sm) {
     executar_animacao(pio, sm, frames, 5, 1.0, 0.0, 1.0, 400);
 }
 
+// Função de animação para o case '1'
+void animacao_leds_1(PIO pio, uint sm) {
+    double frames[5][NUM_PIXELS] = {
+        {0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2, 0.0},
+        {0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2},
+        {0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4, 0.6, 0.4},
+        {0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6, 0.8, 0.6},
+        {0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8, 1.0, 0.8}
+    };
+    executar_animacao(pio, sm, frames, 5, 1.0, 1.0, 0.0, 200);
+}
+
 int main() {
     PIO pio = pio0;
     uint offset, sm;
@@ -142,6 +155,9 @@ int main() {
             switch (key) {
                 case '0':
                     animacao_leds_0(pio, sm);
+                    break;
+                case '1':
+                    animacao_leds_1(pio, sm);
                     break;
                 case 'A':
                     desenho_pio(pio, sm, 0.0, 0.0, 0.0);
