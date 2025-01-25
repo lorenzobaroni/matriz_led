@@ -29,7 +29,7 @@
 
 // Estrutura para armazenar dados de uma animação
 typedef struct {
-    double frames[10][NUM_PIXELS];
+    double frames[25][NUM_PIXELS];
     int num_frames;
     double r, g, b;
     int fps; // Frames por segundo, máximo de 30
@@ -277,9 +277,110 @@ Animacao animacao_4_lorenzo = {
     .fps = 3
 };
 
+    void executar_animacao_lorenzo(PIO pio, uint sm) {
+    for (int frame = 0; frame < animacao_4_lorenzo.num_frames; frame++) {
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            double intensidade = animacao_4_lorenzo.frames[frame][i];
+            uint32_t valor_led = matrix_rgb(lorenzo_colors[frame][2] * intensidade, lorenzo_colors[frame][0] * intensidade, lorenzo_colors[frame][1] * intensidade);
+            pio_sm_put_blocking(pio, sm, valor_led);
+        }
+        buzzer_tone(440 + (frame * 50), 200);
+        sleep_ms(1000 / animacao_4_lorenzo.fps); // Calcula o tempo entre frames com base no FPS
+    }
+}
+
+Animacao animacao_6_musica = {
+	.frames = {
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0}, //dó
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //ré
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //mi
+		{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //fa
+		{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //fa
+		{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //fa
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0}, //dó
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //ré
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0}, //dó
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //ré
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //ré
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //ré
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0}, //dó
+		{1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //sol
+		{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //fa
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //mi
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //mi
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //mi
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0}, //dó
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //ré
+		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //mi
+		{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //fa
+		{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //fa
+		{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0} //fa
+	},
+	.num_frames = 24,
+	.r = 0.0,
+	.g = 0.0,
+	.b = 0.0,
+	.fps = 4
+	
+};
+
+	const double musica_colors[24][3] = { // degradê de azul, onde o dó é o azul mais forte e o sol é o mais claro
+		{0.0, 0.0, 1.0}, //dó
+		{0.0, 0.0, 0.8}, //ré
+		{0.0, 0.0, 0.6}, //mi
+		{0.0, 0.0, 0.4}, //fa
+		{0.0, 0.0, 0.4}, //fa
+		{0.0, 0.0, 0.4}, //fa
+		{0.0, 0.0, 1.0}, //dó
+		{0.0, 0.0, 0.8}, //ré
+		{0.0, 0.0, 1.0}, //dó
+		{0.0, 0.0, 0.8}, //ré
+		{0.0, 0.0, 0.8}, //ré
+		{0.0, 0.0, 0.8}, //ré
+		{0.0, 0.0, 1.0}, //dó
+		{0.0, 0.0, 0.2}, //sol
+		{0.0, 0.0, 0.4}, //fa
+		{0.0, 0.0, 0.6}, //mi
+		{0.0, 0.0, 0.6}, //mi
+		{0.0, 0.0, 0.6}, //mi
+		{0.0, 0.0, 1.0}, //dó
+		{0.0, 0.0, 0.8}, //ré
+		{0.0, 0.0, 0.6}, //mi
+		{0.0, 0.0, 0.4}, //fa
+		{0.0, 0.0, 0.4}, //fa
+		{0.0, 0.0, 0.4}, //fa
+	};
+
+	void executar_animacao_musica(PIO pio, uint sm) {
+		for (int frame = 0; frame < animacao_6_musica.num_frames; frame++) {
+        		for (int i = 0; i < NUM_PIXELS; i++) {
+           			double intensidade = animacao_6_musica.frames[frame][i];
+            			uint32_t valor_led = matrix_rgb(musica_colors[frame][2] * intensidade, musica_colors[frame][0] * intensidade, musica_colors[frame][1] * intensidade);
+            			pio_sm_put_blocking(pio, sm, valor_led);
+        	    }
+        	if (frame == 0 || frame == 6 || frame == 8 || frame == 12 || frame == 18){
+			    buzzer_tone(261, 250);
+			    sleep_ms(1000 / animacao_6_musica.fps);	
+			} else if (frame == 1 || frame == 7 || frame == 9 || frame == 10 || frame == 11 || frame == 19){
+			    buzzer_tone(293, 250);
+			    sleep_ms(1000 / animacao_6_musica.fps);
+			} else if (frame == 2 || frame == 15 || frame == 16 || frame == 17 || frame == 20){
+				buzzer_tone(329, 250);
+				sleep_ms(1000 / animacao_6_musica.fps);
+			} else if (frame == 3 || frame == 4 || frame == 5 || frame == 14 || frame == 21 || frame == 22 || frame == 23){
+				buzzer_tone(349, 250);
+				sleep_ms(1000 / animacao_6_musica.fps);
+			} else {
+				buzzer_tone (392, 250);
+				sleep_ms(1000 / animacao_6_musica.fps); 
+			}
+
+        }    
+    }
+
 // Função para simular a sirene de polícia
-void executar_animacao_joaopaulo(PIO pio, uint sm) {
-    printf("Aniamação 6 - Ativando a sirene de polícia!\n");
+void executar_animacao_sirene(PIO pio, uint sm) {
+    printf("Aniamação 7 - Ativando a sirene de polícia!\n");
 
     // Configuração para a animação da sirene
     Animacao sirene = {
@@ -317,19 +418,6 @@ void executar_animacao_joaopaulo(PIO pio, uint sm) {
     }
 }
 
-    void executar_animacao_lorenzo(PIO pio, uint sm) {
-    for (int frame = 0; frame < animacao_4_lorenzo.num_frames; frame++) {
-        for (int i = 0; i < NUM_PIXELS; i++) {
-            double intensidade = animacao_4_lorenzo.frames[frame][i];
-            uint32_t valor_led = matrix_rgb(lorenzo_colors[frame][2] * intensidade, lorenzo_colors[frame][0] * intensidade, lorenzo_colors[frame][1] * intensidade);
-            pio_sm_put_blocking(pio, sm, valor_led);
-        }
-        buzzer_tone(440 + (frame * 50), 200);
-        sleep_ms(1000 / animacao_4_lorenzo.fps); // Calcula o tempo entre frames com base no FPS
-    }
-}
-
-
 int main() {
     PIO pio = pio0;
     uint offset, sm;
@@ -362,7 +450,10 @@ int main() {
                     executar_animacao(pio, sm, &animacao_5, 0, 0);
                     break;
                 case '6':
-                    executar_animacao_joaopaulo(pio, sm);
+                    executar_animacao_musica(pio, sm);
+                    break;
+                case '7':
+                    executar_animacao_sirene(pio, sm);
                     break;
                 case 'A':
                     desenho_pio(pio, sm, 0.0, 0.0, 0.0);
