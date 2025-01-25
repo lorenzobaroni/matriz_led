@@ -277,6 +277,46 @@ Animacao animacao_4_lorenzo = {
     .fps = 3
 };
 
+// Função para simular a sirene de polícia
+void executar_animacao_joaopaulo(PIO pio, uint sm) {
+    printf("Aniamação 6 - Ativando a sirene de polícia!\n");
+
+    // Configuração para a animação da sirene
+    Animacao sirene = {
+        .frames = {
+            {1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0}, // Vermelho
+            {0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0},  // Azul
+            {1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0}, // Vermelho
+            {0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0},  // Azul
+            {1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0}, // Vermelho
+            {0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0}  // Azul
+        },
+        .num_frames = 6,
+        .r = 1.0,
+        .g = 0.0,
+        .b = 0.0,
+        .fps = 3  // Quadros por segundo
+    };
+
+    int frame_delay = 1000 / sirene.fps; // Calcula o tempo entre frames em milissegundos
+    int repeat_count = 3 * sirene.fps; // Número de repetições para 3 segundos
+
+    // Executa a animação e o som de forma sincronizada
+    for (int repeat = 0; repeat < repeat_count; repeat++) {
+        int frame = repeat % sirene.num_frames; // Calcula o frame atual
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            double intensidade = sirene.frames[frame][i]; // Intensidade do LED
+            double r = (frame % 2 == 0) ? 1.0 : 0.0; // Alterna entre vermelho e azul
+            double g = 0.0;
+            double b = (frame % 2 == 0) ? 0.0 : 1.0;
+            uint32_t valor_led = matrix_rgb(b * intensidade, r * intensidade, g * intensidade); // Cria a cor RGB
+            pio_sm_put_blocking(pio, sm, valor_led); // Envia o valor para o PIO
+        }
+        buzzer_tone(1000 - (frame % 2) * 300, frame_delay); // Alterna entre 1000 Hz e 700 Hz
+        sleep_ms(frame_delay); // Usa o tempo calculado com base no FPS
+    }
+}
+
     void executar_animacao_lorenzo(PIO pio, uint sm) {
     for (int frame = 0; frame < animacao_4_lorenzo.num_frames; frame++) {
         for (int i = 0; i < NUM_PIXELS; i++) {
@@ -320,6 +360,9 @@ int main() {
                     break;
                 case '5':
                     executar_animacao(pio, sm, &animacao_5, 0, 0);
+                    break;
+                case '6':
+                    executar_animacao_joaopaulo(pio, sm);
                     break;
                 case 'A':
                     desenho_pio(pio, sm, 0.0, 0.0, 0.0);
