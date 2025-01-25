@@ -289,7 +289,7 @@ Animacao animacao_4_lorenzo = {
     }
 }
 
-Animacao animacao_musica = {
+Animacao animacao_6_musica = {
 	.frames = {
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0}, //dó
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0}, //ré
@@ -352,27 +352,27 @@ Animacao animacao_musica = {
 	};
 
 	void executar_animacao_musica(PIO pio, uint sm) {
-		for (int frame = 0; frame < animacao_musica.num_frames; frame++) {
+		for (int frame = 0; frame < animacao_6_musica.num_frames; frame++) {
         		for (int i = 0; i < NUM_PIXELS; i++) {
-           			double intensidade = animacao_musica.frames[frame][i];
+           			double intensidade = animacao_6_musica.frames[frame][i];
             			uint32_t valor_led = matrix_rgb(musica_colors[frame][2] * intensidade, musica_colors[frame][0] * intensidade, musica_colors[frame][1] * intensidade);
             			pio_sm_put_blocking(pio, sm, valor_led);
         	    }
         	if (frame == 0 || frame == 6 || frame == 8 || frame == 12 || frame == 18){
 			    buzzer_tone(261, 250);
-			    sleep_ms(1000 / animacao_musica.fps);	
+			    sleep_ms(1000 / animacao_6_musica.fps);	
 			} else if (frame == 1 || frame == 7 || frame == 9 || frame == 10 || frame == 11 || frame == 19){
 			    buzzer_tone(293, 250);
-			    sleep_ms(1000 / animacao_musica.fps);
+			    sleep_ms(1000 / animacao_6_musica.fps);
 			} else if (frame == 2 || frame == 15 || frame == 16 || frame == 17 || frame == 20){
 				buzzer_tone(329, 250);
-				sleep_ms(1000 / animacao_musica.fps);
+				sleep_ms(1000 / animacao_6_musica.fps);
 			} else if (frame == 3 || frame == 4 || frame == 5 || frame == 14 || frame == 21 || frame == 22 || frame == 23){
 				buzzer_tone(349, 250);
-				sleep_ms(1000 / animacao_musica.fps);
+				sleep_ms(1000 / animacao_6_musica.fps);
 			} else {
 				buzzer_tone (392, 250);
-				sleep_ms(1000 / animacao_musica.fps); 
+				sleep_ms(1000 / animacao_6_musica.fps); 
 			}
 
         }    
