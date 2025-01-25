@@ -230,7 +230,27 @@ Animacao animacao_3 = {
     .fps = 5
 };
 
-Animacao animacao_4_lorenzo = {
+Animacao animacao_4 = {
+    .frames = {
+        {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0},
+        {0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
+        {0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+        {0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0},
+        {0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
+        {0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
+        {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0}
+    },
+    .num_frames = 10,
+    .r = 0.0,
+    .g = 1.0,
+    .b = 1.0,
+    .fps = 3
+};
+
+Animacao animacao_5_lorenzo = {
     .frames = {
         {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0}, // L
         {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0}, // O
@@ -257,35 +277,15 @@ Animacao animacao_4_lorenzo = {
         {1.0, 0.5, 0.0}  // O - Laranja
     };
 
-    Animacao animacao_5 = {
-    .frames = {
-        {1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-        {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0},
-        {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-        {1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-    },
-    .num_frames = 10,
-    .r = 0.0,
-    .g = 1.0,
-    .b = 1.0,
-    .fps = 3
-};
-
     void executar_animacao_lorenzo(PIO pio, uint sm) {
-    for (int frame = 0; frame < animacao_4_lorenzo.num_frames; frame++) {
+    for (int frame = 0; frame < animacao_5_lorenzo.num_frames; frame++) {
         for (int i = 0; i < NUM_PIXELS; i++) {
-            double intensidade = animacao_4_lorenzo.frames[frame][i];
+            double intensidade = animacao_5_lorenzo.frames[frame][i];
             uint32_t valor_led = matrix_rgb(lorenzo_colors[frame][2] * intensidade, lorenzo_colors[frame][0] * intensidade, lorenzo_colors[frame][1] * intensidade);
             pio_sm_put_blocking(pio, sm, valor_led);
         }
         buzzer_tone(440 + (frame * 50), 200);
-        sleep_ms(1000 / animacao_4_lorenzo.fps); // Calcula o tempo entre frames com base no FPS
+        sleep_ms(1000 / animacao_5_lorenzo.fps); // Calcula o tempo entre frames com base no FPS
     }
 }
 
@@ -379,11 +379,7 @@ Animacao animacao_6_musica = {
     }
 
 // Função para simular a sirene de polícia
-void executar_animacao_sirene(PIO pio, uint sm) {
-    printf("Aniamação 7 - Ativando a sirene de polícia!\n");
-
-    // Configuração para a animação da sirene
-    Animacao sirene = {
+    Animacao animacao_7_sirene = {
         .frames = {
             {1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0}, // Vermelho
             {0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0},  // Azul
@@ -396,17 +392,18 @@ void executar_animacao_sirene(PIO pio, uint sm) {
         .r = 1.0,
         .g = 0.0,
         .b = 0.0,
-        .fps = 3  // Quadros por segundo
+        .fps = 3 
     };
 
-    int frame_delay = 1000 / sirene.fps; // Calcula o tempo entre frames em milissegundos
-    int repeat_count = 3 * sirene.fps; // Número de repetições para 3 segundos
+void executar_animacao_sirene(PIO pio, uint sm) {
+    int frame_delay = 1000 / animacao_7_sirene.fps; 
+    int repeat_count = 3 * animacao_7_sirene.fps; // Número de repetições para 3 segundos
 
     // Executa a animação e o som de forma sincronizada
     for (int repeat = 0; repeat < repeat_count; repeat++) {
-        int frame = repeat % sirene.num_frames; // Calcula o frame atual
+        int frame = repeat % animacao_7_sirene.num_frames; // Calcula o frame atual
         for (int i = 0; i < NUM_PIXELS; i++) {
-            double intensidade = sirene.frames[frame][i]; // Intensidade do LED
+            double intensidade = animacao_7_sirene.frames[frame][i]; // Intensidade do LED
             double r = (frame % 2 == 0) ? 1.0 : 0.0; // Alterna entre vermelho e azul
             double g = 0.0;
             double b = (frame % 2 == 0) ? 0.0 : 1.0;
@@ -444,10 +441,10 @@ int main() {
                     executar_animacao_multicolor(pio, sm, &animacao_3, 440, 100, 0.0, 0.0, 1.0);
                     break;
                 case '4':
-                    executar_animacao_lorenzo(pio, sm);
+                    executar_animacao(pio, sm, &animacao_4, 0, 0);
                     break;
                 case '5':
-                    executar_animacao(pio, sm, &animacao_5, 0, 0);
+                    executar_animacao_lorenzo(pio, sm);
                     break;
                 case '6':
                     executar_animacao_musica(pio, sm);
