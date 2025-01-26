@@ -508,9 +508,7 @@ int main() {
                     executar_animacao(pio, sm, &animacao_2, 800, 200);
                     break;
                 case '3':
-                    exibir_mensagem("3 - PISCA PISCA MULTICOLORIDO COM BUZZER");
-                    executar_animacao_multicolor(pio, sm, &animacao_3, 200, 20, 0.0, 1.0, 0.0);
-                    break;
+
                 case '4':
                     exibir_mensagem("4 - ANIMAÇÃO DE BARRAS");
                     executar_animacao(pio, sm, &animacao_4, 500, 100);
