@@ -496,27 +496,27 @@ int main() {
         if (key != '\0') {
             switch (key) {
                 case '0':
-                    exibir_mensagem("0 - BRILHO ROSA");
+                    exibir_mensagem("0 - GRADIENTE ROSA");
                     executar_animacao(pio, sm, &animacao_0, 0, 0);
                     break;
                 case '1':
-                    exibir_mensagem("1 - FADE 0 > 1 > 0 > 1 > 0");
+                    exibir_mensagem("1 - ANIMAÇÃO DE FADE 0 > 1 > 0 > 1 > 0");
                     executar_animacao(pio, sm, &animacao_1, 0, 0);
                     break;
                 case '2':
-                    exibir_mensagem("2 - PISCA PISCA");
+                    exibir_mensagem("2 - PISCA PISCA COM BUZZER");
                     executar_animacao(pio, sm, &animacao_2, 800, 200);
                     break;
                 case '3':
-                    exibir_mensagem("3 - PISCA PISCA");
+                    exibir_mensagem("3 - PISCA PISCA MULTICOLORIDO COM BUZZER");
                     executar_animacao_multicolor(pio, sm, &animacao_3, 200, 20, 0.0, 1.0, 0.0);
                     break;
                 case '4':
-                    exibir_mensagem("4 - BARRAS");
+                    exibir_mensagem("4 - ANIMAÇÃO DE BARRAS");
                     executar_animacao(pio, sm, &animacao_4, 500, 100);
                     break;
                 case '5':
-                    exibir_mensagem("5 - ESCREVER O NOME LORENZO");
+                    exibir_mensagem("5 - ESCREVER O NOME L O R E N Z O");
                     executar_animacao_lorenzo(pio, sm);
                     break;
                 case '6':
@@ -532,7 +532,7 @@ int main() {
                     executar_animacao(pio, sm, &animacao_8_countdown, 200, 500);
                     break;
                 case '9':
-                    exibir_mensagem("9 - PISCA PISCA");
+                    exibir_mensagem("9 - PISCA PISCA PERSONALIZADO");
                     executar_animacao(pio, sm, &animacao_9_Felipe, 600, 80);
                     break;
                 case 'A':
@@ -540,19 +540,19 @@ int main() {
                     desenho_pio(pio, sm, 0.0, 0.0, 0.0);
                     break;
                 case 'B':
-                    exibir_mensagem("TODOS OS LEDs AZUL 100%");
+                    exibir_mensagem("TODOS OS LEDs EM AZUL 100%");
                     desenho_pio(pio, sm, 1.0, 0.0, 0.0);
                     break;
                 case 'C':
-                    exibir_mensagem("TODOS OS LEDs VERMELHO 80%");
+                    exibir_mensagem("TODOS OS LEDs EM VERMELHO 80%");
                     desenho_pio(pio, sm, 0.0, 0.8, 0.0);
                     break;
                 case 'D':
-                    exibir_mensagem("TODOS OS LEDs VERDE 50%");
+                    exibir_mensagem("TODOS OS LEDs EM VERDE 50%");
                     desenho_pio(pio, sm, 0.0, 0.0, 0.5);
                     break;
                 case '#':
-                    exibir_mensagem("TODOS OS LEDs BRANCO 20%");
+                    exibir_mensagem("TODOS OS LEDs EM BRANCO 20%");
                     desenho_pio(pio, sm, 0.2, 0.2, 0.2);
                     break;
                 case '*':
