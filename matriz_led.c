@@ -32,7 +32,7 @@ typedef struct {
     double frames[25][NUM_PIXELS];
     int num_frames;
     double r, g, b;
-    int fps; // Frames por segundo, máximo de 30
+    int fps;
 } Animacao;
 
 // Função para configurar os GPIOs do teclado e LEDs
@@ -478,9 +478,9 @@ Animacao animacao_9_Felipe = {
     .fps = 5
 };
 
-
-
-
+void exibir_mensagem(const char *mensagem) {
+    printf("\n\n========== %s ==========\n", mensagem);
+}
 
 int main() {
     PIO pio = pio0;
@@ -496,62 +496,68 @@ int main() {
         if (key != '\0') {
             switch (key) {
                 case '0':
-                    printf("\n\n0 - BRILHO ROSA");
+                    exibir_mensagem("0 - BRILHO ROSA");
                     executar_animacao(pio, sm, &animacao_0, 0, 0);
                     break;
                 case '1':
-                    printf("\n\n1 - FADE 0 > 1 > 0 > 1 > 0");
+                    exibir_mensagem("1 - FADE 0 > 1 > 0 > 1 > 0");
                     executar_animacao(pio, sm, &animacao_1, 0, 0);
                     break;
                 case '2':
-                    printf("\n\n2 - PISCA PISCA");
+                    exibir_mensagem("2 - PISCA PISCA");
                     executar_animacao(pio, sm, &animacao_2, 800, 200);
                     break;
                 case '3':
-                    printf("\n\n3 - PISCA PISCA");
+                    exibir_mensagem("3 - PISCA PISCA");
                     executar_animacao_multicolor(pio, sm, &animacao_3, 200, 20, 0.0, 1.0, 0.0);
                     break;
                 case '4':
-                    printf("\n\n4 - BARRAS");
+                    exibir_mensagem("4 - BARRAS");
                     executar_animacao(pio, sm, &animacao_4, 500, 100);
                     break;
                 case '5':
-                    printf("\n\n5 - ESCREVER O NOME L O R E N Z O");
+                    exibir_mensagem("5 - ESCREVER O NOME LORENZO");
                     executar_animacao_lorenzo(pio, sm);
                     break;
                 case '6':
-                    printf("\n\n6 - MUSICA DÓ, RÉ, MI, FÁ");
+                    exibir_mensagem("6 - MUSICA DÓ, RÉ, MI, FÁ");
                     executar_animacao_musica(pio, sm);
                     break;
                 case '7':
-                    printf("\n\n7 - SIRENE DE POLÍCIA");
+                    exibir_mensagem("7 - SIRENE DE POLÍCIA");
                     executar_animacao_sirene(pio, sm);
                     break;
                 case '8':
-                    printf("\n\n8 - CONTAGEM REGRESSIVA 5, 4, 3, 2, 1");
+                    exibir_mensagem("8 - CONTAGEM REGRESSIVA 5, 4, 3, 2, 1");
                     executar_animacao(pio, sm, &animacao_8_countdown, 200, 500);
                     break;
                 case '9':
-                    printf("\n\n9 - PISCA PISCA");
+                    exibir_mensagem("9 - PISCA PISCA");
                     executar_animacao(pio, sm, &animacao_9_Felipe, 600, 80);
                     break;
                 case 'A':
+                    exibir_mensagem("LEDs DESLIGADOS");
                     desenho_pio(pio, sm, 0.0, 0.0, 0.0);
                     break;
                 case 'B':
+                    exibir_mensagem("TODOS OS LEDs AZUL 100%");
                     desenho_pio(pio, sm, 1.0, 0.0, 0.0);
                     break;
                 case 'C':
+                    exibir_mensagem("TODOS OS LEDs VERMELHO 80%");
                     desenho_pio(pio, sm, 0.0, 0.8, 0.0);
                     break;
                 case 'D':
+                    exibir_mensagem("TODOS OS LEDs VERDE 50%");
                     desenho_pio(pio, sm, 0.0, 0.0, 0.5);
                     break;
                 case '#':
+                    exibir_mensagem("TODOS OS LEDs BRANCO 20%");
                     desenho_pio(pio, sm, 0.2, 0.2, 0.2);
                     break;
                 case '*':
-                    printf("HABILITANDO O MODO GRAVAÇÃO\n");
+                    exibir_mensagem("HABILITANDO O MODO GRAVAÇÃO");
+                    sleep_ms (500);
                     reset_usb_boot(0, 0);
                     break;
                 default:
