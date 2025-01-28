@@ -44,7 +44,7 @@ pico_set_program_version(matriz_led "0.1")
 pico_enable_stdio_uart(matriz_led 0)
 pico_enable_stdio_usb(matriz_led 1)
 
-pico_generate_pio_header(matriz_led ${CMAKE_CURRENT_LIST_DIR}/matriz_led.pio)
+pico_generate_pio_header(matriz_led ${CMAKE_CURRENT_LIST_DIR}/matriz_led.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/generated)
 
 target_sources(matriz_led PRIVATE matriz_led.c)
 
